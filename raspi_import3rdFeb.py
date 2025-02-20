@@ -94,10 +94,28 @@ plt.title('')
 plt.grid()
 plt.show()
 
+
+# Correlation
 data0AutoCorrelate = sci.signal.correlate(data0, data0, mode = 'full')
 maxData0AutoCorrelate = np.max(data0AutoCorrelate)
 print(maxData0AutoCorrelate)
-print(np.argmax(data0AutoCorrelate) - 312479)
+print(np.argmax(data0AutoCorrelate) - np.floor(data0AutoCorrelate.size/2))
+
+data01Correlate = sci.signal.correlate(data0, data1, mode = 'full')
+maxData01Correlate = np.max(data01Correlate)
+print(maxData01Correlate)
+print(np.argmax(data01Correlate) - np.floor(data01Correlate.size/2))
+
+data02Correlate = sci.signal.correlate(data0, data2, mode = 'full')
+maxData02Correlate = np.max(data02Correlate)
+print(maxData02Correlate)
+print(np.argmax(data02Correlate) - np.floor(data02Correlate.size/2))
+
+data12Correlate = sci.signal.correlate(data1, data2, mode = 'full')
+maxData12Correlate = np.max(data12Correlate)
+print(maxData12Correlate)
+print(np.argmax(data12Correlate) - np.floor(data12Correlate.size/2))
+
 
 plt.plot(data0AutoCorrelate)
 plt.show()

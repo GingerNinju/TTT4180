@@ -41,7 +41,7 @@ def raspi_import(path, channels=5):
 #    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv > 1)
 #         else 'foo.bin')
 
-sample_period, data = raspi_import('DATA_mStrom.bin', 1)
+sample_period, data = raspi_import('..\DATA_mStrom.bin', 1)
 print(data.shape)
 print(sample_period)
 
