@@ -41,7 +41,7 @@ def raspi_import(path, channels=5):
 #    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv > 1)
 #         else 'foo.bin')
 
-sample_period, data = raspi_import('..\\202502241250_Klapp_midt12.bin', 1)
+sample_period, data = raspi_import('..\\1-Klapp_corner01.bin', 1)
 print(data.shape)
 print(sample_period)
 
@@ -141,30 +141,137 @@ plt.plot(data0AutoCorrelate)
 plt.show()
 
 
-'''
-# data5fft = np.zeros_like(data5th, dtype=np.complex128) 
-data0fft = fft(data0, axis = 0)
-data1fft = fft(data1, axis = 0)
-data2fft = fft(data2, axis = 0)
-#signalLength = data5th.size
-freq = np.fft.fftfreq(312480,d=sample_period)
+# Standardavvik og varians av målinger
+sample_period, vardata = raspi_import('..\\1-Klapp_corner01.bin', 1)
 
+vardata0 = vardata[100::5]
+vardata1 = vardata[101::5]
+vardata2 = vardata[102::5]
 
-#print(data5fft[0:100])
-#fig, axs = plt.subplots(2,1, sharex=True)
-#axs[0].plot(freq, np.abs(data5fft))
-#axs[1].plot(np.arange(len(data[::5])), data5th)
-plt.plot(freq, data0fft)
-plt.plot(freq, data1fft)
-plt.plot(freq, data2fft)
-#plt.xlim(-1200,1200)
-plt.ylabel('Magnitude [V/MHz]')
-plt.xlabel('Frekvens [Hz]')
-plt.title('Frekvensspektrum')
-plt.grid()
-#plt.xlim(0,100)
-plt.show()
+vardata0Mean = np.mean(vardata0, axis = 0)
+vardata1Mean = np.mean(vardata1, axis = 0)
+vardata2Mean = np.mean(vardata2, axis = 0)
 
-'''
+vardata0 = vardata0 - vardata0Mean
+vardata1 = vardata1 - vardata1Mean
+vardata2 = vardata2 - vardata2Mean
+
+#Korrelasjon
+vardata01Correlate = sci.signal.correlate(vardata0, vardata1, mode = 'full')
+vardata02Correlate = sci.signal.correlate(vardata0, vardata2, mode = 'full')
+vardata12Correlate = sci.signal.correlate(vardata1, vardata2, mode = 'full')
+
+#Vinkel
+KorrRes01 = np.argmax(vardata01Correlate) - np.floor(vardata01Correlate.size/2)
+KorrRes02 = np.argmax(vardata02Correlate) - np.floor(vardata02Correlate.size/2)
+KorrRes12 = np.argmax(vardata12Correlate) - np.floor(vardata12Correlate.size/2)
+angle0 = np.arctan(np.sqrt(3)*((-KorrRes02-KorrRes01)/(-(KorrRes02)+KorrRes01-2*KorrRes12)))
+
+sample_period, vardata = raspi_import('..\\2-Klapp_corner01.bin', 1)
+
+vardata0 = vardata[100::5]
+vardata1 = vardata[101::5]
+vardata2 = vardata[102::5]
+
+vardata0Mean = np.mean(vardata0, axis = 0)
+vardata1Mean = np.mean(vardata1, axis = 0)
+vardata2Mean = np.mean(vardata2, axis = 0)
+
+vardata0 = vardata0 - vardata0Mean
+vardata1 = vardata1 - vardata1Mean
+vardata2 = vardata2 - vardata2Mean
+
+#Korrelasjon
+vardata01Correlate = sci.signal.correlate(vardata0, vardata1, mode = 'full')
+vardata02Correlate = sci.signal.correlate(vardata0, vardata2, mode = 'full')
+vardata12Correlate = sci.signal.correlate(vardata1, vardata2, mode = 'full')
+
+#Vinkel
+KorrRes01 = np.argmax(vardata01Correlate) - np.floor(vardata01Correlate.size/2)
+KorrRes02 = np.argmax(vardata02Correlate) - np.floor(vardata02Correlate.size/2)
+KorrRes12 = np.argmax(vardata12Correlate) - np.floor(vardata12Correlate.size/2)
+angle1 = np.arctan(np.sqrt(3)*((-KorrRes02-KorrRes01)/(-(KorrRes02)+KorrRes01-2*KorrRes12)))
+
+sample_period, vardata = raspi_import('..\\3-Klapp_corner01.bin', 1)
+
+vardata0 = vardata[100::5]
+vardata1 = vardata[101::5]
+vardata2 = vardata[102::5]
+
+vardata0Mean = np.mean(vardata0, axis = 0)
+vardata1Mean = np.mean(vardata1, axis = 0)
+vardata2Mean = np.mean(vardata2, axis = 0)
+
+vardata0 = vardata0 - vardata0Mean
+vardata1 = vardata1 - vardata1Mean
+vardata2 = vardata2 - vardata2Mean
+
+#Korrelasjon
+vardata01Correlate = sci.signal.correlate(vardata0, vardata1, mode = 'full')
+vardata02Correlate = sci.signal.correlate(vardata0, vardata2, mode = 'full')
+vardata12Correlate = sci.signal.correlate(vardata1, vardata2, mode = 'full')
+
+#Vinkel
+KorrRes01 = np.argmax(vardata01Correlate) - np.floor(vardata01Correlate.size/2)
+KorrRes02 = np.argmax(vardata02Correlate) - np.floor(vardata02Correlate.size/2)
+KorrRes12 = np.argmax(vardata12Correlate) - np.floor(vardata12Correlate.size/2)
+angle2 = np.arctan(np.sqrt(3)*((-KorrRes02-KorrRes01)/(-(KorrRes02)+KorrRes01-2*KorrRes12)))
+
+sample_period, vardata = raspi_import('..\\4-Klapp_corner01.bin', 1)
+
+vardata0 = vardata[100::5]
+vardata1 = vardata[101::5]
+vardata2 = vardata[102::5]
+
+vardata0Mean = np.mean(vardata0, axis = 0)
+vardata1Mean = np.mean(vardata1, axis = 0)
+vardata2Mean = np.mean(vardata2, axis = 0)
+
+vardata0 = vardata0 - vardata0Mean
+vardata1 = vardata1 - vardata1Mean
+vardata2 = vardata2 - vardata2Mean
+
+#Korrelasjon
+vardata01Correlate = sci.signal.correlate(vardata0, vardata1, mode = 'full')
+vardata02Correlate = sci.signal.correlate(vardata0, vardata2, mode = 'full')
+vardata12Correlate = sci.signal.correlate(vardata1, vardata2, mode = 'full')
+
+#Vinkel
+KorrRes01 = np.argmax(vardata01Correlate) - np.floor(vardata01Correlate.size/2)
+KorrRes02 = np.argmax(vardata02Correlate) - np.floor(vardata02Correlate.size/2)
+KorrRes12 = np.argmax(vardata12Correlate) - np.floor(vardata12Correlate.size/2)
+angle3 = np.arctan(np.sqrt(3)*((-KorrRes02-KorrRes01)/(-(KorrRes02)+KorrRes01-2*KorrRes12)))
+
+sample_period, vardata = raspi_import('..\\5-Klapp_corner01.bin', 1)
+
+vardata0 = vardata[100::5]
+vardata1 = vardata[101::5]
+vardata2 = vardata[102::5]
+
+vardata0Mean = np.mean(vardata0, axis = 0)
+vardata1Mean = np.mean(vardata1, axis = 0)
+vardata2Mean = np.mean(vardata2, axis = 0)
+
+vardata0 = vardata0 - vardata0Mean
+vardata1 = vardata1 - vardata1Mean
+vardata2 = vardata2 - vardata2Mean
+
+#Korrelasjon
+vardata01Correlate = sci.signal.correlate(vardata0, vardata1, mode = 'full')
+vardata02Correlate = sci.signal.correlate(vardata0, vardata2, mode = 'full')
+vardata12Correlate = sci.signal.correlate(vardata1, vardata2, mode = 'full')
+
+#Vinkel
+KorrRes01 = np.argmax(vardata01Correlate) - np.floor(vardata01Correlate.size/2)
+KorrRes02 = np.argmax(vardata02Correlate) - np.floor(vardata02Correlate.size/2)
+KorrRes12 = np.argmax(vardata12Correlate) - np.floor(vardata12Correlate.size/2)
+angle4 = np.arctan(np.sqrt(3)*((-KorrRes02-KorrRes01)/(-(KorrRes02)+KorrRes01-2*KorrRes12)))
+
+#Varians og Standaravvik av vinkler
+angleVar = np.var([angle0, angle1, angle2, angle3, angle4])
+angleStd = np.std([angle0, angle1, angle2, angle3, angle4])
+print("Vinkel var:", angleVar)
+print("Vinkel std:", angleStd)
+
 
  
