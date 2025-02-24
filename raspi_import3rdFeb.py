@@ -41,7 +41,7 @@ def raspi_import(path, channels=5):
 #    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv > 1)
 #         else 'foo.bin')
 
-sample_period, data = raspi_import('..\DATA_wSOUND.bin', 1)
+sample_period, data = raspi_import('..\\202502241250_Klapp_midt12.bin', 1)
 print(data.shape)
 print(sample_period)
 
@@ -94,27 +94,47 @@ plt.title('')
 plt.grid()
 plt.show()
 
-
+'''
+data0 = data0[round(31230*3/10):round(31230*4/10):]
+data1 = data1[round(31230*3/10):round(31230*4/10):]
+data2 = data2[round(31230*3/10):round(31230*4/10):]
+''' 
 # Correlation
 data0AutoCorrelate = sci.signal.correlate(data0, data0, mode = 'full')
+print("Lengden data0:",len(data0))
+print("Lengden autokorrelasjonen",len(data0AutoCorrelate))
+print("Forholdet: ", len(data0)/len(data0AutoCorrelate))
 maxData0AutoCorrelate = np.max(data0AutoCorrelate)
 print(maxData0AutoCorrelate)
-print(np.argmax(data0AutoCorrelate) - np.floor(data0AutoCorrelate.size/2))
+print("Autokorrelasjon data0:", np.argmax(data0AutoCorrelate) - np.floor(data0AutoCorrelate.size/2))
 
 data01Correlate = sci.signal.correlate(data0, data1, mode = 'full')
 maxData01Correlate = np.max(data01Correlate)
-print(maxData01Correlate)
-print(np.argmax(data01Correlate) - np.floor(data01Correlate.size/2))
+# maxData01Correlate = maxData01Correlate - len(data1) 
+#print(maxData01Correlate)
+KorrRes01 = np.argmax(data01Correlate) - np.floor(data01Correlate.size/2)
+print("Korrelasjon mellom data 0 og 1:", KorrRes01)
 
 data02Correlate = sci.signal.correlate(data0, data2, mode = 'full')
 maxData02Correlate = np.max(data02Correlate)
-print(maxData02Correlate)
-print(np.argmax(data02Correlate) - np.floor(data02Correlate.size/2))
+#print(maxData02Correlate)
+KorrRes02 = np.argmax(data02Correlate) - np.floor(data02Correlate.size/2)
+print("Korrelasjon mellom data 0 og 2:", KorrRes02)
 
 data12Correlate = sci.signal.correlate(data1, data2, mode = 'full')
 maxData12Correlate = np.max(data12Correlate)
-print(maxData12Correlate)
-print(np.argmax(data12Correlate) - np.floor(data12Correlate.size/2))
+#print(maxData12Correlate)
+KorrRes12 = np.argmax(data12Correlate) - np.floor(data12Correlate.size/2)
+print("Korrelasjon mellom data 1 og 2:", KorrRes12)
+
+angle = np.arctan(np.sqrt(3)*((-KorrRes02-KorrRes01)/(-(KorrRes02)+KorrRes01-2*KorrRes12)))
+if ((-(KorrRes02)+KorrRes01-2*KorrRes12)) < 0:
+    angle = angle + np.pi
+    print("Vinkel (pi added):", angle)
+else: print("Vinkel:", angle)
+# Convert angle to degrees
+angle = angle*180/np.pi
+print("Vinkel i grader:", angle)
 
 
 plt.plot(data0AutoCorrelate)
