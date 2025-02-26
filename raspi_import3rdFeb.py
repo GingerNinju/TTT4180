@@ -265,7 +265,7 @@ vardata12Correlate = sci.signal.correlate(vardata1, vardata2, mode = 'full')
 KorrRes01 = np.argmax(vardata01Correlate) - np.floor(vardata01Correlate.size/2)
 KorrRes02 = np.argmax(vardata02Correlate) - np.floor(vardata02Correlate.size/2)
 KorrRes12 = np.argmax(vardata12Correlate) - np.floor(vardata12Correlate.size/2)
-angle4 = np.arctan(np.sqrt(3)*((-KorrRes02-KorrRes01)/(-(KorrRes02)+KorrRes01-2*KorrRes12)))
+angle4 = np.arctan(np.sqrt(3)*((-KorrRes01-KorrRes02)/(-(KorrRes01)+KorrRes02-2*KorrRes12)))
 
 #Varians og Standaravvik av vinkler
 angleVar = np.var([angle0, angle1, angle2, angle3, angle4])
