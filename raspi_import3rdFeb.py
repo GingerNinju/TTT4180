@@ -133,7 +133,7 @@ if ((-(KorrRes02)+KorrRes01-2*KorrRes12)) < 0:
     print("Vinkel (pi added):", angle)
 else: print("Vinkel:", angle)
 # Convert angle to degrees
-angle = angle*180/np.pi
+angle = np.degrees(angle)
 print("Vinkel i grader:", angle)
 
 
@@ -271,7 +271,9 @@ angle4 = np.arctan(np.sqrt(3)*((-KorrRes01-KorrRes02)/(-(KorrRes01)+KorrRes02-2*
 angleVar = np.var([angle0, angle1, angle2, angle3, angle4])
 angleStd = np.std([angle0, angle1, angle2, angle3, angle4])
 print("Vinkel var:", angleVar)
+print("Vinkel var i grader:", np.degrees(angleVar))
 print("Vinkel std:", angleStd)
+print("Vinkel std i grader:", np.degrees(angleStd))
 
 
  
