@@ -35,17 +35,26 @@ musr = 100 * (17.6*(wavelength/500)**-4 + 18.78*(wavelength/500)**-0.22)
 
 # TODO calculate penetration depth
 
-d = np.sqrt(1/(3*(mua + musr)*mua)) *100 # penetration depth in cm
-print("Penetration depth [R,G,B][cm]: ",d)
+d = np.sqrt(1/(3*(mua + musr)*mua)) # penetration depth in cm
+print("Penetration depth [R,G,B][cm]: ",d*100)
 
 phi0 = 1/(2*d*mua)
 C = np.sqrt(3*mua*(musr+mua))
 
-
+def R (): return 1 / (d * mua)
 def phi (z):
     return phi0*np.exp(-C*z)
 
-print("mua [R,G,B][1/m]: ",mua)
-print("Min finger er 1,6cm. Transmittans [R,G,B]: ",phi(0.016))
+def T (): return np.exp(-C*0.016)
 
-#Probet dybde reflektans
+print("R:",R())
+print("T:",T())
+print("mua [R,G,B][1/m]: ",mua)
+print("Min finger er 1,6cm. Transmittans [R,G,B]: ",phi(0.011))
+
+C_b = np.sqrt(3*mua_blood*(musr+mua_blood))
+T_h = np.exp(-C_b*0.0003)
+T_l = np.exp(-C*0.0003)
+#Kontrast forppgave 1d)
+def K (): return (abs(T_h - T_l ) / T_l)
+print("Kontrast: ",K())
