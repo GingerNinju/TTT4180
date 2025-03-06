@@ -50,7 +50,7 @@ def T (): return np.exp(-C*0.016)
 print("R:",R())
 print("T:",T())
 print("mua [R,G,B][1/m]: ",mua)
-print("Min finger er 1,6cm. Transmittans [R,G,B]: ",phi(0.011))
+print("Min finger er 1,6cm. Transmittans [R,G,B]: ",phi(0.016))
 
 C_b = np.sqrt(3*mua_blood*(musr+mua_blood))
 T_h = np.exp(-C_b*0.0003)
