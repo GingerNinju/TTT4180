@@ -5,9 +5,9 @@ import sys
 import matplotlib.pyplot as plt
 
 # Fetch array from .txt
-R_curve = np.genfromtxt("../Lab3/Data/Finger_1cmR.txt", delimiter=",")
-G_curve = np.genfromtxt("../Lab3/Data/Finger_1cmG.txt", delimiter=",")
-B_curve = np.genfromtxt("../Lab3/Data/Finger_1cmB.txt", delimiter=",")
+R_curve = np.genfromtxt("./OptikklabData/250306/Finger_1cmR.txt", delimiter=",")
+G_curve = np.genfromtxt("./OptikklabData/250306/Finger_1cmG.txt", delimiter=",")
+B_curve = np.genfromtxt("./OptikklabData/250306/Finger_1cmB.txt", delimiter=",")
 
 # Remove DC offset
 R_curve = R_curve - np.mean(R_curve)
