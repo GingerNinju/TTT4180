@@ -100,8 +100,7 @@ plt.show()
 dataC = data1 + 1j * data0
 
 #FFT of the data
-data0_fft = np.fft.fftshift(np.fft.fft(data0, axis=0))
-data1_fft = np.fft.fftshift(np.fft.fft(data1, axis=0))
+dataC_fft = np.fft.fftshift(np.fft.fft(dataC, axis=0))
 
 
 # Calculate the sampling rate depening on Cutoff
@@ -113,14 +112,14 @@ x_axis = 31250 * 3e8 / 2 / 24.13e9
 
 
 # x-axis in m/s
-x = np.linspace(-x_axis/2, x_axis/2 , len(data0_fft))
+x = np.linspace(-x_axis/2, x_axis/2 , len(dataC_fft))
 
 fig, axs = plt.subplots(2)
 
-axs[0].plot(x,np.abs(data0_fft))
+axs[0].plot(x,np.abs(dataC_fft))
 axs[0].set_title('Q')
 
-axs[1].plot(x,np.abs(data1_fft))
+axs[1].plot(x,np.abs(dataC_fft))
 axs[1].set_title('I')
 
 
