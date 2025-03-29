@@ -35,6 +35,28 @@ B_curves = [B_curve, B_curve_2, B_curve_3, B_curve_4, B_curve_5]
 
 sampling_rate = 30
 
+def Peaks(FFT):
+    # Find the peaks in the FFT
+    #peaks, _ = sci.signal.find_peaks(FFT)
+    peaks = FFT[len(FFT) // 2:]  # Exclude the zero lag peak
+    # Exclude the zero lag peak
+    # peaks = peaks[peaks > len(FFT) // 2]
+    
+    if len(peaks) > 0:
+         # Find the largest peak
+        largest_peak_index = np.argmax(peaks)
+        peak_bpm =  largest_peak_index 
+        return peak_bpm
+    else:
+        return None
+
+def calculate_snr(fft_data):
+    power_spectrum = np.abs(fft_data) ** 2
+    signal_power = np.max(power_spectrum)
+    noise_power = np.sum(power_spectrum) - signal_power
+    snr = 10 * np.log10(signal_power / noise_power)
+    return snr
+
 #peaks
 peaks = np.zeros((5))
 for i, (R, G, B) in enumerate(zip(R_curves, G_curves, B_curves), start=1):
@@ -72,34 +94,41 @@ for i, (R, G, B) in enumerate(zip(R_curves, G_curves, B_curves), start=1):
     R_fft = fftshift(fft(R))
     G_fft = fftshift(fft(G))
     B_fft = fftshift(fft(B))
-    '''
+
+    # Calculate SNR
+    R_snr = calculate_snr(R_fft)
+    G_snr = calculate_snr(G_fft)
+    B_snr = calculate_snr(B_fft)
+
+    print(f"SNR for Red curve {i}: {R_snr:.2f} dB")
+    print(f"SNR for Green curve {i}: {G_snr:.2f} dB")
+    print(f"SNR for Blue curve {i}: {B_snr:.2f} dB")
+    
     # x-axis in Hz
     x = np.linspace(-sampling_rate * 60 / 2, sampling_rate * 60 / 2, len(R_fft))
 
     fig, axs = plt.subplots(3)
-
-    axs[0].plot(x,np.abs(R_fft))
+    
+    axs[0].plot(x, np.abs(R_fft))
     axs[0].set_title('Red curve')
 
-    axs[1].plot(x,np.abs(G_fft))
+    axs[1].plot(x, np.abs(G_fft))
     axs[1].set_title('Green curve')
 
-    axs[2].plot(x,np.abs(B_fft))
+    axs[2].plot(x, np.abs(B_fft))
     axs[2].set_title('Blue curve')
 
     plt.show()
-    '''
     
-    peaks[i-1]= np.argmax(np.abs(R_fft))
+        
+    peaks[i-1]= Peaks(R_fft)
     
-    # Exclude the zero lag peak
-    peaks[i-1] = peaks[peaks > len(R_fft) // 2]
 
 print(peaks)
-
+BPM_Array = [77, 77, 75 ,79, 80]
 #Mean and variance of peaks
-mean = np.mean(peaks)
-variance = np.var(peaks)
+mean = np.mean(BPM_Array)
+variance = np.var(BPM_Array)
 print(mean)
 print(variance)
 

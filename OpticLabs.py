@@ -8,14 +8,14 @@ import matplotlib.pyplot as plt
 R_curve = np.genfromtxt("./OptikklabData/250306/202503131841_finger-johs-Puls-RED.txt", delimiter=",")
 G_curve = np.genfromtxt("./OptikklabData/250306/202503131841_finger-johs-Puls-GREEN.txt", delimiter=",")
 B_curve = np.genfromtxt("./OptikklabData/250306/202503131841_finger-johs-Puls-BLUE.txt", delimiter=",")
-'''
+
 #Plot curves
 plt.plot(G_curve)
 plt.title('Green curve')
 plt.ylabel('Amplitude')
 plt.xlabel('Time')
 plt.show()
-'''
+
 
 
 fig, axs = plt.subplots(3)
