@@ -103,6 +103,7 @@ dataC = data1 + 1j * data0
 dataC_fft = np.fft.fftshift(np.fft.fft(dataC, axis=0))
 
 
+
 # Calculate the sampling rate depening on Cutoff
 
 sampling_rate = 31250
@@ -114,10 +115,25 @@ x_axis = 31250 * 3e8 / 2 / 24.13e9
 # x-axis in m/s
 x = np.linspace(-x_axis/2, x_axis/2 , len(dataC_fft))
 
+
+# Plot the FFT of the data logarithmic y-axis
+plt.plot(x, np.abs(dataC_fft))
+plt.xlim(-10, 10)
+#log scale y axis
+plt.yscale('log')
+plt.xlabel('Speed [m/s]')   
+plt.ylabel('Magnitude [V]')
+plt.title('FFT of the data')
+plt.grid()
+plt.show()
+
+'''
 fig, axs = plt.subplots(2)
 
 axs[0].plot(x,np.abs(dataC_fft))
 axs[0].set_title('Q')
+#scale y axis logarithmic
+axs[0].set_yscale('log')
 
 axs[1].plot(x,np.abs(dataC_fft))
 axs[1].set_title('I')
@@ -125,4 +141,4 @@ axs[1].set_title('I')
 
 plt.show()
 
-
+'''
