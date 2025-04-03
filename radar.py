@@ -44,7 +44,7 @@ def raspi_import(path, channels=5):
 
 #1139_Radar-30sec-AWAY_4.bin
 
-sample_period, data = raspi_import('.\\radarData\\202503311106_radar-slow-AWAY.bin ', 1)
+sample_period, data = raspi_import('.\\radarData\\202503311228_Radar-15sec-TOWARDS-Fast_5.bin ', 1)
 # print(data.shape)
 # print(sample_period)
 
@@ -63,8 +63,8 @@ sample_period, data = raspi_import('.\\radarData\\202503311106_radar-slow-AWAY.b
 
 # tid = np.arange(data.shape[0])*sample_period
 samples = data.shape[0]
-cutoff_l = 15000 *5
-cutoff_h = 90000 *5
+cutoff_l = 0#100000  *5
+cutoff_h = samples#200000  *5
 dataDetrend = sci.signal.detrend(data, axis = 0)
 dataAdj = dataDetrend * 3.3 / 4096
 data0 = dataAdj[cutoff_l:cutoff_h:5]
@@ -102,6 +102,7 @@ dataC = data0 + 1j * data1
 
 #FFT of the data
 dataC_fft = np.fft.fftshift(np.fft.fft(dataC, axis=0))
+print(np.abs(np.max(dataC_fft)))
 
 
 
@@ -143,3 +144,11 @@ axs[1].set_title('I')
 plt.show()
 
 '''
+maxSpeeds =[1.02,1.28,1.7,1.07,1.8]
+#Standard deviation of the data
+StandardDev = np.std(maxSpeeds)
+
+#Variance of the data 
+Variance = np.var(maxSpeeds)
+print("Standard deviation: ", StandardDev)
+print("Variance: ", Variance)
